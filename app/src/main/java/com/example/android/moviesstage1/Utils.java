@@ -145,8 +145,10 @@ public final class Utils {
             JSONObject baseJsonResponse = new JSONObject(moviesJSON);
 
             // Checking if "items" is present
-            if (baseJsonResponse.has("items")) {
-                featureArray = baseJsonResponse.getJSONArray("items");
+            if (baseJsonResponse.has("results")) {
+                featureArray = baseJsonResponse.getJSONArray("results");
+
+                Log.i("INSIDE Utils.java", "inside if has results");
             } else
             {
                 // Built placeholder JSON string in case "items" not found
@@ -177,8 +179,8 @@ public final class Utils {
 
             for (int i = 0;i < featureArray.length();i++){
                 JSONObject currentMovie = featureArray.getJSONObject(i);
-                JSONObject properties = currentMovie.getJSONObject("volumeInfo");
-                String poster_path = properties.getString("poster_path");
+                String poster_path = currentMovie.getString("poster_path");
+                //String poster_path = properties.getString("poster_path");
 
                 MovieList mMovieList = new MovieList(poster_path);
                 movies.add(mMovieList);

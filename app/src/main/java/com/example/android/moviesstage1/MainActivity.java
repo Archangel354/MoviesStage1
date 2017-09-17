@@ -1,23 +1,31 @@
 package com.example.android.moviesstage1;
 
+import android.app.LoaderManager;
+import android.content.Loader;
+import android.graphics.Movie;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.util.Log;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<MovieList>>{
+
+    /**
+     * Constant value for the movielist loader ID. We can choose any integer.
+     * This really only comes into play if you're using multiple loaders.
+     */
+    private static final int MOVIELIST_LOADER_ID = 1;
+
+    /** Adapter for the list of movies */
+    private MovieAdapter mAdapter;
 
     private static final String TAG = MainActivity.class.getSimpleName();
-
-
-    private MovieAdapter mMovieAdapter;
-
-    private TextView mErrorMessageDisplay;
-
-    private ProgressBar mLoadingIndicator;
 
     private String urlString = "https://api.themoviedb.org/3/movie/popular?api_key=02ff7187d940e5bd15cd5acd2b41b63e";
 
@@ -26,54 +34,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.i("LOG.MAINACTIVITY","The url is: " + urlString);
 
+        // Find a reference to the {@link ListView} in the layout
+        ListView movieListView = (ListView) findViewById(R.id.list);
 
-        /*
-         * Using findViewById, we get a reference to our RecyclerView from xml. This allows us to
-         * do things like set the adapter of the RecyclerView and toggle the visibility.
-         */
-        //mRecyclerView = (RecyclerView) findViewById(R.id.recyclerview_movie);
+        // Create a new adapter that takes an empty list of BookList as input
+        mAdapter = new MovieAdapter(this, new ArrayList<MovieList>());
 
-        /* This TextView is used to display errors and will be hidden if there are no errors */
-        //mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
+        // Set the adapter on the {@link ListView}
+        // so the list can be populated in the user interface
+        movieListView.setAdapter(mAdapter);
 
-        /*
-         * LinearLayoutManager can support HORIZONTAL or VERTICAL orientations. The reverse layout
-         * parameter is useful mostly for HORIZONTAL layouts that should reverse for right to left
-         * languages.
-         */
-        //LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+    }
 
-        //mRecyclerView.setLayoutManager(layoutManager);
+    @Override
+    public Loader<List<MovieList>> onCreateLoader(int id, Bundle args) {
+        return null;
+    }
 
-        /*
-         * Use this setting to improve performance if you know that changes in content do not
-         * change the child layout size in the RecyclerView
-         */
-       // mRecyclerView.setHasFixedSize(true);
+    @Override
+    public void onLoadFinished(Loader<List<MovieList>> loader, List<MovieList> data) {
 
-        /*
-         * The ForecastAdapter is responsible for linking our weather data with the Views that
-         * will end up displaying our weather data.
-         */
-        //mMovieAdapter = new MovieAdapter(this);
+    }
 
-        /* Setting the adapter attaches it to the RecyclerView in our layout. */
-        //mRecyclerView.setAdapter(mMovieAdapter);
-
-        /*
-         * The ProgressBar that will indicate to the user that we are loading data. It will be
-         * hidden when no data is loading.
-         *
-         * Please note: This so called "ProgressBar" isn't a bar by default. It is more of a
-         * circle. We didn't make the rules (or the names of Views), we just follow them.
-         */
-        //mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
-
-        /* Once all of our views are setup, we can load the weather data. */
-        // 9-10-17 loadWeatherData();
-
-
+    @Override
+    public void onLoaderReset(Loader<List<MovieList>> loader) {
 
     }
 }

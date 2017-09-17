@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        List<MovieList> mMovieLists = Utils.fetchMovieData(urlString);
+
 
         /*
          * Using findViewById, we get a reference to our RecyclerView from xml. This allows us to

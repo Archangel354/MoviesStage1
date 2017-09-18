@@ -189,6 +189,7 @@ public final class Utils {
                 //String poster_path = properties.getString("poster_path");
 
                 MovieList mMovieList = new MovieList(posterUrlString);
+
                 movies.add(mMovieList);
 
             }

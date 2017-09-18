@@ -20,6 +20,9 @@ import java.util.ArrayList;
 
 public class MovieAdapter extends ArrayAdapter<MovieList> {
 
+    private Context context;
+    private LayoutInflater inflater;
+
 
     public MovieAdapter(Activity context, ArrayList<MovieList> movieListRecords) {
         super(context,0,  movieListRecords);

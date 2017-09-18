@@ -9,13 +9,13 @@ import android.widget.ImageView;
 public class MovieList {
 
     // image for a particular movie
-    private String mPosterPath;
+    private ImageView mPosterPath;
 
-    public MovieList(String PosterPath) {
+    public MovieList(ImageView PosterPath) {
         mPosterPath = PosterPath;
     }
 
-    public String getmPosterPath() {
+    public ImageView getmPosterPath() {
         return mPosterPath;
     }
 }

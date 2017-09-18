@@ -2,6 +2,7 @@ package com.example.android.moviesstage1;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;
+import android.util.Log;
 
 import java.util.List;
 
@@ -32,7 +33,10 @@ public class MovieListLoader extends AsyncTaskLoader<List<MovieList>> {
 
         // Perform the network request, parse the response, and extract a list of earthquakes.
         List<MovieList> movies = Utils.fetchMovieData(mUrl);
+
+
         return movies;
+
     }
 
 

@@ -16,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -135,6 +136,7 @@ public final class Utils {
     private static List extractFeatureFromJson(String moviesJSON) {
         String authors = "";
         String publisher = "";
+        String posterBaseString = "https://image.tmdb.org/t/p/w185/";
         JSONArray featureArray = null;
 
         // If the JSON string is empty or null, then return early.
@@ -180,15 +182,22 @@ public final class Utils {
             for (int i = 0;i < featureArray.length();i++){
                 JSONObject currentMovie = featureArray.getJSONObject(i);
                 String poster_path = currentMovie.getString("poster_path");
+                String posterUrlString = posterBaseString + poster_path;
+                Log.i("UTILS","The posterUrlString is: " + posterUrlString);
+
+                //https://www.google.com/url?q=http://image.tmdb.org/t/p/w185/
                 //String poster_path = properties.getString("poster_path");
 
-                MovieList mMovieList = new MovieList(poster_path);
+                MovieList mMovieList = new MovieList(posterUrlString);
                 movies.add(mMovieList);
+
             }
 
         } catch (JSONException e) {
             Log.e(LOG_TAG, "Problem parsing the mMovieList JSON results", e);
+
         }
+
         return movies;
     }
 

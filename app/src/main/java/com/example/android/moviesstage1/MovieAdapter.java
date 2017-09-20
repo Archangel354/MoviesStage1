@@ -6,10 +6,7 @@ package com.example.android.moviesstage1;
 
 import android.app.Activity;
 import android.content.Context;
-
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +19,8 @@ public class MovieAdapter extends ArrayAdapter<MovieList> {
 
     private Context context;
     private LayoutInflater inflater;
+    private String urlImageBaseString = "https://www.google.com/url?q=http://image.tmdb.org/t/p/w185/";
+    private String completeUrlString = "";
 
 
     public MovieAdapter(Activity context, ArrayList<MovieList> movieListRecords) {
@@ -29,7 +28,6 @@ public class MovieAdapter extends ArrayAdapter<MovieList> {
 
     }
 
-    @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Check if the existing view is being reused, otherwise inflate the view
@@ -49,6 +47,9 @@ public class MovieAdapter extends ArrayAdapter<MovieList> {
         // Get the jpg string from the current MovieRecord object and
         // set this text on the title TextView
         txtTitleView.setText(String.valueOf(currentMovie.getmPosterPath()));
+
+        completeUrlString = urlImageBaseString + txtTitleView.getText().toString();
+        Log.i("LOG.MovieAdapter","The completeUrlString is: " + completeUrlString);
 
         return listItemView;
     }

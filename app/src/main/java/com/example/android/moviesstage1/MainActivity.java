@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -42,15 +43,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         Log.i("LOG.MAINACTIVITY","The url is: " + urlString);
 
-        // Find a reference to the {@link ListView} in the layout
-        ListView movieListView = (ListView) findViewById(R.id.list);
+        // Find a reference to the {@link GridView} in the layout
+        GridView movieGridView = (GridView) findViewById(R.id.movieGrid);
 
         // Create a new adapter that takes an empty list of BookList as input
         mAdapter = new MovieAdapter(this, new ArrayList<MovieList>());
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
-        movieListView.setAdapter(mAdapter);
+        movieGridView.setAdapter(mAdapter);
 
         // Get a reference to the ConnectivityManager to check state of network connectivity
         ConnectivityManager connMgr = (ConnectivityManager)

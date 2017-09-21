@@ -11,9 +11,11 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -80,6 +82,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             //bookListView.setEmptyView(mEmptyStateTextView);
             //mEmptyStateTextView.setText(R.string.no_internet_connection);
         }
+
+        Spinner mSpinner = (Spinner) findViewById(R.id.spnPopOrRated);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> mAdapter = ArrayAdapter.createFromResource(this,
+                R.array.movie_choices, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setAdapter(mAdapter);
 
     }
 

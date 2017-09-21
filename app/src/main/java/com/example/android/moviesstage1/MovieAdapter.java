@@ -39,6 +39,7 @@ public class MovieAdapter extends ArrayAdapter<MovieList> {
 
         inflater = LayoutInflater.from(context);
 
+
     }
 
     @NonNull
@@ -57,6 +58,7 @@ public class MovieAdapter extends ArrayAdapter<MovieList> {
 
         TextView txtTitleView = (TextView) convertView.findViewById(R.id.txtTitle);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imgPosterPath);
+        imageView.setAdjustViewBounds(true);
 
         // Find the TextView in the movie_list_items.xml layout with the ID txtTitleView
         //TextView txtTitleView = (TextView) listItemView.findViewById(R.id.txtTitle);

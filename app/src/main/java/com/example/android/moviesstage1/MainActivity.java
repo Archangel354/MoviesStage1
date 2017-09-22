@@ -1,5 +1,6 @@
 package com.example.android.moviesstage1;
 
+import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Loader;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ListView;
@@ -91,6 +93,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(mAdapter);
 
+
+        addListenerOnSpinnerItemSelection();
+
+
+
+
+
+
     }
 
     @Override
@@ -118,4 +128,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // Loader reset, so we can clear out our existing data.
         mAdapter.clear();
     }
+
+    public void addListenerOnSpinnerItemSelection(){
+        Spinner spinner = (Spinner) findViewById(R.id.spnPopOrRated);
+        spinner.setOnItemSelectedListener(new SpinnerActivity());
+
+    }
+
+
 }
+

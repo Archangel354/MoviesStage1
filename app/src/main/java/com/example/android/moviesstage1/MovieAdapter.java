@@ -36,10 +36,7 @@ public class MovieAdapter extends ArrayAdapter<MovieList> {
 
         this.context = context;
         this.imageUrls = movieListRecords;
-
         inflater = LayoutInflater.from(context);
-
-
     }
 
     @NonNull

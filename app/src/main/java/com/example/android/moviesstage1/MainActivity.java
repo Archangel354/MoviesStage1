@@ -3,6 +3,7 @@ package com.example.android.moviesstage1;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.graphics.Movie;
 import android.net.ConnectivityManager;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private String urlString = "https://api.themoviedb.org/3/movie/popular?api_key=02ff7187d940e5bd15cd5acd2b41b63e";
+    public String PopularlString = "https://api.themoviedb.org/3/movie/popular?api_key=02ff7187d940e5bd15cd5acd2b41b63e";
 
     private String urlImageBaseString = "https://www.google.com/url?q=http://image.tmdb.org/t/p/w185/";
 
@@ -45,7 +46,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.i("LOG.MAINACTIVITY","The url is: " + urlString);
+
+
+        Log.i("LOG.MAINACTIVITY","The url is: " + PopularlString);
 
         // Find a reference to the {@link GridView} in the layout
         GridView movieGridView = (GridView) findViewById(R.id.movieGrid);
@@ -57,6 +60,70 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // so the list can be populated in the user interface
         movieGridView.setAdapter(mAdapter);
 
+        Spinner mSpinner = (Spinner) findViewById(R.id.spnPopOrRated);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> mAdapter = ArrayAdapter.createFromResource(this,
+                R.array.movie_choices, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setAdapter(mAdapter);
+        addListenerOnSpinnerItemSelection();
+
+        GrabMovieList();
+
+
+        Bundle mBundle = getIntent().getExtras();
+        if ( mBundle == null){
+            return;
+        }
+
+        // Get data via the key
+        String magicUrl = mBundle.getString(Intent.EXTRA_TEXT);
+        if (magicUrl != null){
+            Log.i("MAINACTIVITY", "magicUrl is: " + magicUrl);
+        }
+
+
+
+        long flag = mSpinner.getSelectedItemId();
+        Log.i("MAINACTIVITY: ","flag: " + flag);
+
+    }
+
+    @Override
+    public Loader<List<MovieList>> onCreateLoader(int id, Bundle args) {
+        // Create a new loader for the given URL
+        return new MovieListLoader(this, PopularlString);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<List<MovieList>> loader, List<MovieList> movies) {
+        // Clear the adapter of previous booklist data
+        mAdapter.clear();
+
+        // If there is a valid list of books, then add them to the adapter's
+        // data set. This will trigger the ListView to update.
+        if (movies != null && !movies.isEmpty()) {
+            mAdapter.addAll(movies);
+
+        }
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<List<MovieList>> loader) {
+        // Loader reset, so we can clear out our existing data.
+        mAdapter.clear();
+    }
+
+    public void addListenerOnSpinnerItemSelection(){
+        Spinner spinner = (Spinner) findViewById(R.id.spnPopOrRated);
+        spinner.setOnItemSelectedListener(new SpinnerActivity());
+
+
+    }
+
+    public void GrabMovieList(){
         // Get a reference to the ConnectivityManager to check state of network connectivity
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -85,53 +152,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             //mEmptyStateTextView.setText(R.string.no_internet_connection);
         }
 
-        Spinner mSpinner = (Spinner) findViewById(R.id.spnPopOrRated);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> mAdapter = ArrayAdapter.createFromResource(this,
-                R.array.movie_choices, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinner.setAdapter(mAdapter);
-
-
-        addListenerOnSpinnerItemSelection();
-
-
-
-
-
-
-    }
-
-    @Override
-    public Loader<List<MovieList>> onCreateLoader(int id, Bundle args) {
-        // Create a new loader for the given URL
-        return new MovieListLoader(this, urlString);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<List<MovieList>> loader, List<MovieList> movies) {
-        // Clear the adapter of previous booklist data
-        mAdapter.clear();
-
-        // If there is a valid list of books, then add them to the adapter's
-        // data set. This will trigger the ListView to update.
-        if (movies != null && !movies.isEmpty()) {
-            mAdapter.addAll(movies);
-
-        }
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<List<MovieList>> loader) {
-        // Loader reset, so we can clear out our existing data.
-        mAdapter.clear();
-    }
-
-    public void addListenerOnSpinnerItemSelection(){
-        Spinner spinner = (Spinner) findViewById(R.id.spnPopOrRated);
-        spinner.setOnItemSelectedListener(new SpinnerActivity());
 
     }
 

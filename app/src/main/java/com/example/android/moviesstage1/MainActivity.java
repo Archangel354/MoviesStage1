@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     public final static String POPULARSTRING = "https://api.themoviedb.org/3/movie/popular?api_key=02ff7187d940e5bd15cd5acd2b41b63e";
     public final static String TOPRATEDSTRING = "https://api.themoviedb.org/3/movie/top_rated?api_key=02ff7187d940e5bd15cd5acd2b41b63e";
-    public String urlPosterString = "";
+    public String urlPosterString = POPULARSTRING;
 
     private String urlImageBaseString = "https://www.google.com/url?q=http://image.tmdb.org/t/p/w185/";
 
@@ -76,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                 if ( selected.contains("Most Popular")){
                     urlPosterString = POPULARSTRING;
+
+
                 } else if (selected.contains("Highest Rated")){
                     urlPosterString = TOPRATEDSTRING;
                 } else {
@@ -89,13 +91,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
+        //getLoaderManager().restartLoader(MOVIELIST_LOADER_ID, null, this);
         GrabMovieList();
     }
 
     @Override
     public Loader<List<MovieList>> onCreateLoader(int id, Bundle args) {
         // Create a new loader for the given URL
-        return new MovieListLoader(this, TOPRATEDSTRING);
+        return new MovieListLoader(this, urlPosterString);
     }
 
     @Override

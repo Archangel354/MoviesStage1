@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    public String PopularlString = "https://api.themoviedb.org/3/movie/popular?api_key=02ff7187d940e5bd15cd5acd2b41b63e";
+    public final static String POPULARSTRING = "https://api.themoviedb.org/3/movie/popular?api_key=02ff7187d940e5bd15cd5acd2b41b63e";
+    public final static String TOPRATEDSTRING = "https://api.themoviedb.org/3/movie/top_rated?api_key=02ff7187d940e5bd15cd5acd2b41b63e";
+    public String urlPosterString = "";
 
     private String urlImageBaseString = "https://www.google.com/url?q=http://image.tmdb.org/t/p/w185/";
 
@@ -45,10 +48,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
-        Log.i("LOG.MAINACTIVITY","The url is: " + PopularlString);
+        Log.i("LOG.MAINACTIVITY","The url is: " + POPULARSTRING);
 
         // Find a reference to the {@link GridView} in the layout
         GridView movieGridView = (GridView) findViewById(R.id.movieGrid);
@@ -67,33 +67,35 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // Specify the layout to use when the list of choices appears
         mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(mAdapter);
-        addListenerOnSpinnerItemSelection();
+
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selected = parent.getItemAtPosition(position).toString();
+                Log.i("setOnItemSelectedLi... ","spinner result: " + selected);
+
+                if ( selected.contains("Most Popular")){
+                    urlPosterString = POPULARSTRING;
+                } else if (selected.contains("Highest Rated")){
+                    urlPosterString = TOPRATEDSTRING;
+                } else {
+                    Toast.makeText(MainActivity.this,"Spinner error", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         GrabMovieList();
-
-
-        Bundle mBundle = getIntent().getExtras();
-        if ( mBundle == null){
-            return;
-        }
-
-        // Get data via the key
-        String magicUrl = mBundle.getString(Intent.EXTRA_TEXT);
-        if (magicUrl != null){
-            Log.i("MAINACTIVITY", "magicUrl is: " + magicUrl);
-        }
-
-
-
-        long flag = mSpinner.getSelectedItemId();
-        Log.i("MAINACTIVITY: ","flag: " + flag);
-
     }
 
     @Override
     public Loader<List<MovieList>> onCreateLoader(int id, Bundle args) {
         // Create a new loader for the given URL
-        return new MovieListLoader(this, PopularlString);
+        return new MovieListLoader(this, TOPRATEDSTRING);
     }
 
     @Override
@@ -116,12 +118,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mAdapter.clear();
     }
 
-    public void addListenerOnSpinnerItemSelection(){
-        Spinner spinner = (Spinner) findViewById(R.id.spnPopOrRated);
-        spinner.setOnItemSelectedListener(new SpinnerActivity());
 
-
-    }
 
     public void GrabMovieList(){
         // Get a reference to the ConnectivityManager to check state of network connectivity

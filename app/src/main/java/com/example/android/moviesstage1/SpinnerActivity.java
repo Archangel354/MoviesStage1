@@ -14,18 +14,18 @@ public class SpinnerActivity extends Activity implements AdapterView.OnItemSelec
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+
+
         String data = parent.getItemAtPosition(position).toString();
-        data = "sillyness";
         Toast.makeText(parent.getContext(),
                 "OnItemSelectedListener : " + data,
                 Toast.LENGTH_SHORT).show();
-        Intent mIntent = new Intent(getApplicationContext(), MainActivity.class);
-        mIntent.putExtra("PopOrRated", data);
-        startActivity(mIntent);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+
 }

@@ -1,25 +1,18 @@
 package com.example.android.moviesstage1;
 
-import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.Loader;
-import android.graphics.Movie;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -43,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public String urlPosterString = POPULARSTRING;
 
     private String urlImageBaseString = "https://www.google.com/url?q=http://image.tmdb.org/t/p/w185/";
+    public boolean justStartedFlag = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +47,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // Find a reference to the {@link GridView} in the layout
         GridView movieGridView = (GridView) findViewById(R.id.movieGrid);
 
-        // Create a new adapter that takes an empty list of BookList as input
+     
+        // Create a new adapter that takes an empty list of MovieList as input
         mAdapter = new MovieAdapter(this, new ArrayList<MovieList>());
 
         // Set the adapter on the {@link ListView}
@@ -62,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         Spinner mSpinner = (Spinner) findViewById(R.id.spnPopOrRated);
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> mAdapter = ArrayAdapter.createFromResource(this,
+        final ArrayAdapter<CharSequence> mAdapter = ArrayAdapter.createFromResource(this,
                 R.array.movie_choices, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -74,12 +69,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 String selected = parent.getItemAtPosition(position).toString();
                 Log.i("setOnItemSelectedLi... ","spinner result: " + selected);
 
-                if ( selected.contains("Most Popular")){
+                if (( selected.contains("Most Popular")) && (justStartedFlag == false)){
+
                     urlPosterString = POPULARSTRING;
+                    getLoaderManager().restartLoader(MOVIELIST_LOADER_ID, null, MainActivity.this);
+
 
 
                 } else if (selected.contains("Highest Rated")){
                     urlPosterString = TOPRATEDSTRING;
+                    getLoaderManager().restartLoader(MOVIELIST_LOADER_ID, null, MainActivity.this);
+
                 } else {
                     Toast.makeText(MainActivity.this,"Spinner error", Toast.LENGTH_LONG).show();
                 }
@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
+        //mAdapter = new MovieAdapter(this, new ArrayList<MovieList>());
         //getLoaderManager().restartLoader(MOVIELIST_LOADER_ID, null, this);
         GrabMovieList();
     }
@@ -109,7 +110,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // If there is a valid list of books, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (movies != null && !movies.isEmpty()) {
+            mAdapter.clear();
+            mAdapter.UpdateMovies(movies);
             mAdapter.addAll(movies);
+
 
         }
 

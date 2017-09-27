@@ -21,14 +21,17 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MovieAdapter extends ArrayAdapter<MovieList> {
 
     private Context context;
     private LayoutInflater inflater;
-    private ArrayList<MovieList> imageUrls;
+    //private ArrayList<MovieList> imageUrls;
     private String urlImageBaseString = "https://image.tmdb.org/t/p/w185/";
     private String completeUrlString = "";
+
+    private List<MovieList> imageUrls = new ArrayList<>(); // so far so good 9/25/17
 
 
     public MovieAdapter(Activity context, ArrayList<MovieList> movieListRecords) {
@@ -37,6 +40,12 @@ public class MovieAdapter extends ArrayAdapter<MovieList> {
         this.context = context;
         this.imageUrls = movieListRecords;
         inflater = LayoutInflater.from(context);
+    }
+
+    // so far so good 9/25/17
+    public void UpdateMovies(List<MovieList> newList){
+        this.imageUrls = newList;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -73,5 +82,11 @@ public class MovieAdapter extends ArrayAdapter<MovieList> {
                 .into(imageView);
 
         return convertView;
+    }
+
+    @Override
+    public void clear() {
+        super.clear();
+
     }
 }

@@ -27,10 +27,8 @@ public class MovieAdapter extends ArrayAdapter<MovieList> {
 
     private Context context;
     private LayoutInflater inflater;
-    //private ArrayList<MovieList> imageUrls;
     private String urlImageBaseString = "https://image.tmdb.org/t/p/w185/";
     private String completeUrlString = "";
-
     private List<MovieList> imageUrls = new ArrayList<>(); // so far so good 9/25/17
 
 
@@ -87,6 +85,7 @@ public class MovieAdapter extends ArrayAdapter<MovieList> {
     @Override
     public void clear() {
         super.clear();
-
     }
+
+
 }

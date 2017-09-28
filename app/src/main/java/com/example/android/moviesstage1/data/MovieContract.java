@@ -1,5 +1,6 @@
-package com.example.android.moviesstage1;
+package com.example.android.moviesstage1.data;
 
+import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
@@ -7,10 +8,12 @@ import android.provider.BaseColumns;
  * Created by Owner on 9/28/2017.
  */
 
-public final class MovieContract {
+public  class MovieContract {
     // To prevent someone from accidentally instatiating the contract class,
     // give it an empty constructor.
-    private MovieContract() {}
+    private MovieContract() {
+
+    }
 
     /**
             * The "Content authority" is a name for the entire content provider, similar to the
@@ -33,10 +36,34 @@ public final class MovieContract {
 
     public static final String PATH_MOVIES = "moviesstage1";
 
-    public final static String _ID = BaseColumns._ID;
+    /**
+     * Inner class that defines constant values for the moview database table.
+     * Each entry in the table represents a single movie.
+     */
+    public static final class MovieEntry implements BaseColumns {
+
+        /**
+         * The content URI to access the inventory data in the provider
+         */
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_MOVIES);
+
+        /**
+         * The MIME type of the {@link #CONTENT_URI} for a list of products.
+         */
+        public static final String CONTENT_LIST_TYPE =
+                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIES;
+
+        /**
+         * Name of database table for inventory
+         */
+        public final static String TABLE_NAME = "moviesstage1";
+
+
+    public final static String MY_PRODUCT_ID = BaseColumns._ID;
     public final static String COLUMN_MOVIE_TITLE ="title";
     public final static String COLUMN_MOVIE_RELEASE_DATE ="releasedate";
     public final static String COLUMN_MOVIE_POSTER_IMAGE ="image";
     public final static String COLUMN_MOVIE_VOTE_AVERAGE ="vote";
     public final static String COLUMN_MOVIE_SYNOPSIS ="synopsis";
+    }
 }

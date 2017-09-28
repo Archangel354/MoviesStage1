@@ -22,6 +22,7 @@
         android:gravity="center"
         android:horizontalSpacing="0dp"
         android:verticalSpacing="0dp"
+        android:descendantFocusability="beforeDescendants"
         android:layout_below="@id/spnPopOrRated"
         />
 

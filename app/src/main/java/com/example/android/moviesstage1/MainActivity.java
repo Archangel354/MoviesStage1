@@ -38,38 +38,27 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     /** Adapter for the list of movies */
     private MovieAdapter mAdapter;
-    //private ArrayList arrayList;
+    private ArrayList arrayList;
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     public final static String POPULARSTRING = "https://api.themoviedb.org/3/movie/popular?api_key=02ff7187d940e5bd15cd5acd2b41b63e";
     public final static String TOPRATEDSTRING = "https://api.themoviedb.org/3/movie/top_rated?api_key=02ff7187d940e5bd15cd5acd2b41b63e";
     public String urlPosterString = POPULARSTRING;
-    private Button btnClear;
     private boolean firstTimeRunFlag = true;
 
     // Find a reference to the {@link GridView} in the layout
     public GridView movieGridView;
-    //GridView movieGridView = (GridView) findViewById(R.id.movieGrid);
 
     private String urlImageBaseString = "https://image.tmdb.org/t/p/w185/";
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.i("LOG.MAINACTIVITY","The url is: " + POPULARSTRING);
-
-        btnClear = (Button) findViewById(R.id.btnClear);
-
         movieGridView = (GridView) findViewById(R.id.movieGrid);
-        //btnClear = findViewById(R.id.spnPopOrRated)
 
-        //arrayList = new ArrayList<MovieList>();
         // Create a new adapter that takes an empty list of movies as input
-        //mAdapter = new MovieAdapter(this, new ArrayList<MovieList>());
         mAdapter = new MovieAdapter(this, new ArrayList<MovieList>());
 
         // Set the adapter on the {@link ListView}
@@ -77,37 +66,40 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         movieGridView.setAdapter(mAdapter);
 
         Spinner mSpinner = (Spinner) findViewById(R.id.spnPopOrRated);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> mAdapter = ArrayAdapter.createFromResource(this,
-                R.array.movie_choices, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        mSpinner.setAdapter(mAdapter);
 
-        //getLoaderManager().restartLoader(MOVIELIST_LOADER_ID, null, this);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> spinAdapter = ArrayAdapter.createFromResource(this,
+                R.array.movie_choices, android.R.layout.simple_spinner_item);
+
+        // Specify the layout to use when the list of choices appears
+        spinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setAdapter(spinAdapter);
+
+        getLoaderManager().restartLoader(MOVIELIST_LOADER_ID, null, this);
         GrabMovieList();
 
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selected = parent.getItemAtPosition(position).toString();
-                Log.i("setOnItemSelectedLi... ","spinner result: " + selected);
 
                 if (( selected.contains("Most Popular"))  && (!firstTimeRunFlag)){
-                    //movieGridView.setAdapter(null);
                     urlPosterString = POPULARSTRING;
+                    mAdapter.clear();
+                    movieGridView.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
                     getLoaderManager().restartLoader(MOVIELIST_LOADER_ID, null, MainActivity.this);
                     Toast.makeText(MainActivity.this,"POPULARSTRING", Toast.LENGTH_LONG).show();
-
-
                 } else if (selected.contains("Highest Rated")){
-                   //movieGridView.setAdapter(null);
+                    firstTimeRunFlag = false;
                     urlPosterString = TOPRATEDSTRING;
-
+                    mAdapter.clear();
+                    movieGridView.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
                     getLoaderManager().restartLoader(MOVIELIST_LOADER_ID, null, MainActivity.this);
                     Toast.makeText(MainActivity.this,"TOPRATEDSTRING", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(MainActivity.this,"Spinner error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this,"Neither spinner choice executed", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -116,22 +108,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             }
         });
-
-        btnClear.setOnClickListener(new View.OnClickListener() {
-           @Override
-          public void onClick(View v) {
-
-               //movieGridView.setAdapter(null);
-               //mAdapter.clear();
-                //arrayList.clear();
-              //mAdapter.getCount();
-               // String value = String.valueOf(mAdapter.getCount());
-                Toast.makeText(MainActivity.this,"Clear GridView", Toast.LENGTH_LONG).show();
-               // mAdapter.notifyDataSetChanged();
-            }
-        });
-
-
     }
 
     @Override
@@ -155,9 +131,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             mAdapter.notifyDataSetChanged();
             mAdapter.UpdateMovies(movies);
             mAdapter.addAll(movies);
-
         }
-
     }
 
     @Override
@@ -165,8 +139,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // Loader reset, so we can clear out our existing data.
         mAdapter.clear();
     }
-
-
 
     public void GrabMovieList(){
         // Get a reference to the ConnectivityManager to check state of network connectivity

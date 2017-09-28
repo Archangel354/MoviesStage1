@@ -36,6 +36,8 @@ public final class Utils {
      */
     public static List fetchMovieData(String requestUrl) {
 
+        movies.clear();  // RD 9/27/17
+
         // Create URL object
         URL url = createUrl(requestUrl);
 

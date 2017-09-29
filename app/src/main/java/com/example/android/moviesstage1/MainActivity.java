@@ -1,11 +1,8 @@
 package com.example.android.moviesstage1;
 
-import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.Loader;
-import android.graphics.Movie;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -15,18 +12,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.android.moviesstage1.Utils.movies;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<MovieList>>{
 
@@ -76,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mSpinner.setAdapter(spinAdapter);
 
         getLoaderManager().restartLoader(MOVIELIST_LOADER_ID, null, this);
-        GrabMovieList();
+        connectAndLoadMovies();
 
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -144,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mAdapter.clear();
     }
 
-    public void GrabMovieList(){
+    public void connectAndLoadMovies(){
         // Get a reference to the ConnectivityManager to check state of network connectivity
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);

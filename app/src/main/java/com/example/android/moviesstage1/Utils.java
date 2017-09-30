@@ -36,6 +36,8 @@ public final class Utils {
      */
     public static List fetchMovieData(String requestUrl) {
 
+        movies.clear();  // RD 9/27/17
+
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -183,13 +185,14 @@ public final class Utils {
                 JSONObject currentMovie = featureArray.getJSONObject(i);
                 String poster_path = currentMovie.getString("poster_path");
                 String posterUrlString = posterBaseString + poster_path;
+                String titleString = currentMovie.getString("title");
+                String dateString = currentMovie.getString("release_date");
+                String voteString = currentMovie.getString("vote_average");
+                String synopsisString = currentMovie.getString("overview");
                 Log.i("UTILS","The posterUrlString is: " + posterUrlString);
+                Log.i("UTILS","The titleString is: " + titleString);
 
-                //https://www.google.com/url?q=http://image.tmdb.org/t/p/w185/
-                //String poster_path = properties.getString("poster_path");
-
-                MovieList mMovieList = new MovieList(posterUrlString);
-
+                MovieList mMovieList = new MovieList(posterUrlString, titleString, dateString, voteString, synopsisString);
                 movies.add(mMovieList);
 
             }
@@ -198,7 +201,7 @@ public final class Utils {
             Log.e(LOG_TAG, "Problem parsing the mMovieList JSON results", e);
 
         }
-
+        Log.i("UTILS","movies is: " + movies);
         return movies;
     }
 

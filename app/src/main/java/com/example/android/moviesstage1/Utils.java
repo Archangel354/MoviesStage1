@@ -198,7 +198,7 @@ public final class Utils {
             Log.e(LOG_TAG, "Problem parsing the mMovieList JSON results", e);
 
         }
-
+        Log.i("UTILS","movies is: " + movies);
         return movies;
     }
 

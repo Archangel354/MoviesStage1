@@ -22,6 +22,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.android.moviesstage1.Utils.movies;
+
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<MovieList>>{
 
     /**
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         movieGridView = (GridView) findViewById(R.id.movieGrid);
+
 
         // Create a new adapter that takes an empty list of movies as input
         mAdapter = new MovieAdapter(this, new ArrayList<MovieList>());
@@ -108,6 +111,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent mIntent = new Intent(MainActivity.this, DetailActivity.class);
+                Bundle mBundle = new Bundle();
+                Toast.makeText(MainActivity.this,"grid position is: " + position, Toast.LENGTH_LONG).show();
+                mBundle.putString("MBUNDLE_TITLE", movies.get(position).getmMovieTitle());
+                mIntent.putExtras(mBundle);
+                //movies.get(position).getmMovieTitle();
+                Toast.makeText(MainActivity.this,"the title is: " + movies.get(position).getmMovieTitle(), Toast.LENGTH_LONG).show();
                 startActivity(mIntent);
             }
         });

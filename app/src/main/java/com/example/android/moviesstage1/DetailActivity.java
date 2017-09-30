@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import static com.example.android.moviesstage1.Utils.movies;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -21,13 +24,16 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         mMovieDisplay = (TextView) findViewById(R.id.txtTitle);
-
         Intent intentThatStartedThisActivity = getIntent();
+        Bundle mBundle = intentThatStartedThisActivity.getExtras();
+        String mTitle = mBundle.getString("MBUNDLE_TITLE");
+        mMovieDisplay.setText(mTitle);
 
         if (intentThatStartedThisActivity != null) {
             if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
                 mMovies = intentThatStartedThisActivity.getStringExtra(Intent.EXTRA_TEXT);
-                mMovieDisplay.setText(mMovies);
+                mMovieDisplay.setText(mTitle);
+                Toast.makeText(DetailActivity.this,"the title over here is: " + mTitle, Toast.LENGTH_LONG).show();
             }
         }
 

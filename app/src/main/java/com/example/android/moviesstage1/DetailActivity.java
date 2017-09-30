@@ -20,7 +20,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        mMovieDisplay = (TextView) findViewById(R.id.txtMovies);
+        mMovieDisplay = (TextView) findViewById(R.id.txtTitle);
 
         Intent intentThatStartedThisActivity = getIntent();
 

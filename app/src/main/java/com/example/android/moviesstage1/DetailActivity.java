@@ -1,13 +1,18 @@
 package com.example.android.moviesstage1;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import static com.example.android.moviesstage1.Utils.movies;
 
@@ -17,6 +22,13 @@ public class DetailActivity extends AppCompatActivity {
 
     private String mMovies;
     private TextView mMovieDisplay;
+    private TextView mDateDisplay;
+    private TextView mVoteDisplay;
+    private TextView mSynopsisDisplay;
+    private TextView mPosterDisplay;
+    private Context context;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +36,56 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         mMovieDisplay = (TextView) findViewById(R.id.txtTitle);
+        mDateDisplay = (TextView) findViewById(R.id.txtReleaseDate);
+        mVoteDisplay = (TextView) findViewById(R.id.txtVoteAverage);
+        mSynopsisDisplay = (TextView) findViewById(R.id.txtSynopsis);
+        mPosterDisplay = (TextView) findViewById(R.id.txtPoster);
+
+
         Intent intentThatStartedThisActivity = getIntent();
         Bundle mBundle = intentThatStartedThisActivity.getExtras();
         String mTitle = mBundle.getString("MBUNDLE_TITLE");
         mMovieDisplay.setText(mTitle);
+        String mDate = mBundle.getString("MBUNDLE_DATE");
+        mDateDisplay.setText(mDate);
+        String mVote = mBundle.getString("MBUNDLE_VOTE");
+        mVoteDisplay.setText(mVote);
+        String mSynopsis = mBundle.getString("MBUNDLE_SYNOPSIS");
+        mSynopsisDisplay.setText(mSynopsis);
+        String mPoster = mBundle.getString("MBUNDLE_POSTER");
+        //mSynopsisDisplay.setText(mPoster);
+
+
+
+        //TextView txtPosterView = (TextView) convertView.findViewById(R.id.txtPoster);
+        ImageView imageView = (ImageView) findViewById(R.id.imgPoster);
+        imageView.setAdjustViewBounds(true);
+
+        // Find the TextView in the movie_list_items.xml layout with the ID txtPosterView
+        // Get the jpg string from the current MovieRecord object and
+        // set this text on the title TextView
+        // and also get the title of the movie.
+        //txtPosterView.setText(String.valueOf(mPoster));
+        //txtTitleView.setText(String.valueOf(currentMovie.getmMovieTitle()));
+
+        //completeUrlString = txtPosterView.getText().toString();
+        //Log.i("LOG.MovieAdapter","The completeUrlString is: " + completeUrlString);
+
+        Picasso
+                .with(context)
+                .load(mPoster)
+                .fit()
+                .into(imageView);
+
+
+
+
+
+
+
+
+
+
 
         if (intentThatStartedThisActivity != null) {
             if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {

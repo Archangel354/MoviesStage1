@@ -185,11 +185,14 @@ public final class Utils {
                 JSONObject currentMovie = featureArray.getJSONObject(i);
                 String poster_path = currentMovie.getString("poster_path");
                 String posterUrlString = posterBaseString + poster_path;
-                String titleString = currentMovie.getString("title");;
+                String titleString = currentMovie.getString("title");
+                String dateString = currentMovie.getString("release_date");
+                String voteString = currentMovie.getString("vote_average");
+                String synopsisString = currentMovie.getString("overview");
                 Log.i("UTILS","The posterUrlString is: " + posterUrlString);
                 Log.i("UTILS","The titleString is: " + titleString);
 
-                MovieList mMovieList = new MovieList(posterUrlString, titleString);
+                MovieList mMovieList = new MovieList(posterUrlString, titleString, dateString, voteString, synopsisString);
                 movies.add(mMovieList);
 
             }

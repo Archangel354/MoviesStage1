@@ -114,8 +114,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 Bundle mBundle = new Bundle();
                 Toast.makeText(MainActivity.this,"grid position is: " + position, Toast.LENGTH_LONG).show();
                 mBundle.putString("MBUNDLE_TITLE", movies.get(position).getmMovieTitle());
+                mBundle.putString("MBUNDLE_DATE", movies.get(position).getmReleaseDate());
+                mBundle.putString("MBUNDLE_VOTE", movies.get(position).getmVoteAverage());
+                mBundle.putString("MBUNDLE_SYNOPSIS", movies.get(position).getmSynopsis());
+                mBundle.putString("MBUNDLE_POSTER", movies.get(position).getmPosterPath());
                 mIntent.putExtras(mBundle);
-                //movies.get(position).getmMovieTitle();
+
                 Toast.makeText(MainActivity.this,"the title is: " + movies.get(position).getmMovieTitle(), Toast.LENGTH_LONG).show();
                 startActivity(mIntent);
             }

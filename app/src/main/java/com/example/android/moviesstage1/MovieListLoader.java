@@ -31,9 +31,11 @@ public class MovieListLoader extends AsyncTaskLoader<List<MovieList>> {
             return null;
         }
 
+
         // Perform the network request, parse the response, and extract a list of earthquakes.
         List<MovieList> movies = Utils.fetchMovieData(mUrl);
-
+        Log.i("MovieListLoader","The array is: " + movies.toString());
+        Log.i("MovieListLoader","The array count is: " + movies.size());
 
         return movies;
 

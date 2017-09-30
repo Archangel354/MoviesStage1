@@ -1,16 +1,12 @@
 package com.example.android.moviesstage1;
 
 import android.app.LoaderManager;
-import android.content.ContentUris;
 import android.content.Context;
-import android.content.Intent;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,8 +17,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.android.moviesstage1.Utils.movies;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<MovieList>>{
 
@@ -41,62 +35,69 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public final static String POPULARSTRING = "https://api.themoviedb.org/3/movie/popular?api_key=02ff7187d940e5bd15cd5acd2b41b63e";
     public final static String TOPRATEDSTRING = "https://api.themoviedb.org/3/movie/top_rated?api_key=02ff7187d940e5bd15cd5acd2b41b63e";
     public String urlPosterString = POPULARSTRING;
-    private boolean firstTimeRunFlag = true;
 
-    // Find a reference to the {@link GridView} in the layout
+    private String urlImageBaseString = "https://www.google.com/url?q=http://image.tmdb.org/t/p/w185/";
+    public boolean justStartedFlag = true;
     public GridView movieGridView;
-
-    private String urlImageBaseString = "https://image.tmdb.org/t/p/w185/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.i("LOG.MAINACTIVITY","The url is: " + POPULARSTRING);
+
+        // Find a reference to the {@link GridView} in the layout
         movieGridView = (GridView) findViewById(R.id.movieGrid);
 
 
-        // Create a new adapter that takes an empty list of movies as input
+        // Create a new adapter that takes an empty list of MovieList as input
         mAdapter = new MovieAdapter(this, new ArrayList<MovieList>());
 
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
-        movieGridView.setAdapter(mAdapter);
+       // movieGridView.setAdapter(mAdapter);
 
         Spinner mSpinner = (Spinner) findViewById(R.id.spnPopOrRated);
-
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> spinAdapter = ArrayAdapter.createFromResource(this,
+        final ArrayAdapter<CharSequence> spinAdapter = ArrayAdapter.createFromResource(this,
                 R.array.movie_choices, android.R.layout.simple_spinner_item);
-
         // Specify the layout to use when the list of choices appears
         spinAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(spinAdapter);
-
-        getLoaderManager().restartLoader(MOVIELIST_LOADER_ID, null, this);
-        connectAndLoadMovies();
 
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selected = parent.getItemAtPosition(position).toString();
+                Log.i("setOnItemSelectedLi... ","spinner result: " + selected);
 
-                if (( selected.contains("Most Popular"))  && (!firstTimeRunFlag)){
+                if (( selected.contains("Most Popular")) && (justStartedFlag == false)){
+
                     urlPosterString = POPULARSTRING;
                     mAdapter.clear();
+
                     movieGridView.setAdapter(mAdapter);
                     mAdapter.notifyDataSetChanged();
+                    mAdapter.getCount();
                     getLoaderManager().restartLoader(MOVIELIST_LOADER_ID, null, MainActivity.this);
+                    Toast.makeText(MainActivity.this,"POPULARSTRING: " +  mAdapter.getCount(), Toast.LENGTH_LONG).show();
+
+
 
                 } else if (selected.contains("Highest Rated")){
-                    firstTimeRunFlag = false;
+                    justStartedFlag = false;
                     urlPosterString = TOPRATEDSTRING;
                     mAdapter.clear();
+
                     movieGridView.setAdapter(mAdapter);
                     mAdapter.notifyDataSetChanged();
+                    mAdapter.getCount();
                     getLoaderManager().restartLoader(MOVIELIST_LOADER_ID, null, MainActivity.this);
+                    Toast.makeText(MainActivity.this,"TOPRATEDSTRING: " +  mAdapter.getCount(), Toast.LENGTH_LONG).show();
 
                 } else {
-                    Toast.makeText(MainActivity.this,"Neither spinner choice executed", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this,"Neither spinner choice executed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this,"Neither choice executed: " +  mAdapter.getCount(), Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -106,51 +107,42 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        // Setup the setOnItemClickListener when a movie image is clicked
-        movieGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent mIntent = new Intent(MainActivity.this, DetailActivity.class);
-                Bundle mBundle = new Bundle();
-
-                mBundle.putString("MBUNDLE_TITLE", movies.get(position).getmMovieTitle());
-                mBundle.putString("MBUNDLE_DATE", movies.get(position).getmReleaseDate());
-                mBundle.putString("MBUNDLE_VOTE", movies.get(position).getmVoteAverage());
-                mBundle.putString("MBUNDLE_SYNOPSIS", movies.get(position).getmSynopsis());
-                mBundle.putString("MBUNDLE_POSTER", movies.get(position).getmPosterPath());
-                mIntent.putExtras(mBundle);
-
-                startActivity(mIntent);
-            }
-        });
-
-
-
-
+        //mAdapter = new MovieAdapter(this, new ArrayList<MovieList>());
+        //getLoaderManager().restartLoader(MOVIELIST_LOADER_ID, null, this);
+        GrabMovieList();
     }
 
     @Override
     public Loader<List<MovieList>> onCreateLoader(int id, Bundle args) {
         // Create a new loader for the given URL
-        mAdapter.clear();
-        mAdapter.notifyDataSetChanged();
-        Log.i("ONCREATELOADER... ","urlPosterString: " + urlPosterString);
+       //justStartedFlag = false;
         return new MovieListLoader(this, urlPosterString);
     }
 
     @Override
     public void onLoadFinished(Loader<List<MovieList>> loader, List<MovieList> movies) {
-        // Clear the adapter of previous movie data
+
+
+
+        Log.i("onLoadFinished","movies: " + movies);
         mAdapter.clear();
 
+        movieGridView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+        //mAdapter = new MovieAdapter(this, new ArrayList<MovieList>());
+       // mAdapter = new MovieAdapter(this);
+
+        //movieGridView.setAdapter(mAdapter);
         // If there is a valid list of books, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (movies != null && !movies.isEmpty()) {
             mAdapter.clear();
-            mAdapter.notifyDataSetChanged();
-            mAdapter.UpdateMovies(movies);
+            //mAdapter.UpdateMovies(movies);
             mAdapter.addAll(movies);
+
+
         }
+
     }
 
     @Override
@@ -159,7 +151,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mAdapter.clear();
     }
 
-    public void connectAndLoadMovies(){
+
+
+    public void GrabMovieList(){
         // Get a reference to the ConnectivityManager to check state of network connectivity
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);

@@ -6,10 +6,7 @@ package com.example.android.moviesstage1;
 
 import android.app.Activity;
 import android.content.Context;
-
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +24,10 @@ public class MovieAdapter extends ArrayAdapter<MovieList> {
 
     private Context context;
     private LayoutInflater inflater;
+    //private ArrayList<MovieList> imageUrls;  so far so good 9/25/17
     private String urlImageBaseString = "https://image.tmdb.org/t/p/w185/";
     private String completeUrlString = "";
+
     private List<MovieList> imageUrls = new ArrayList<>(); // so far so good 9/25/17
 
 
@@ -46,6 +45,8 @@ public class MovieAdapter extends ArrayAdapter<MovieList> {
         notifyDataSetChanged();
     }
 
+
+
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -60,19 +61,17 @@ public class MovieAdapter extends ArrayAdapter<MovieList> {
         // Get the MovieRecord jpg object located at this "position" in the list
         MovieList currentMovie = getItem(position);
 
-        TextView txtPosterView = (TextView) convertView.findViewById(R.id.txtPoster);
+        TextView txtTitleView = (TextView) convertView.findViewById(R.id.txtTitle);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imgPosterPath);
-        TextView txtTitleView = (TextView) convertView.findViewById(R.id.txtMovieTitle);
         imageView.setAdjustViewBounds(true);
 
-        // Find the TextView in the movie_list_items.xml layout with the ID txtPosterView
+        // Find the TextView in the movie_list_items.xml layout with the ID txtTitleView
+        //TextView txtTitleView = (TextView) listItemView.findViewById(R.id.txtTitle);
         // Get the jpg string from the current MovieRecord object and
         // set this text on the title TextView
-        // and also get the title of the movie.
-        txtPosterView.setText(String.valueOf(currentMovie.getmPosterPath()));
-        txtTitleView.setText(String.valueOf(currentMovie.getmMovieTitle()));
+        txtTitleView.setText(String.valueOf(currentMovie.getmPosterPath()));
 
-        completeUrlString = txtPosterView.getText().toString();
+        completeUrlString = txtTitleView.getText().toString();
         Log.i("LOG.MovieAdapter","The completeUrlString is: " + completeUrlString);
 
         Picasso
@@ -83,11 +82,4 @@ public class MovieAdapter extends ArrayAdapter<MovieList> {
 
         return convertView;
     }
-
-    @Override
-    public void clear() {
-        super.clear();
-    }
-
-
 }

@@ -16,7 +16,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,14 +28,17 @@ public final class Utils {
     public static final String LOG_TAG = Utils.class.getSimpleName();
 
     // Create an empty ArrayList that we can start adding movies to
+    // static ArrayList<MovieList> movies = new ArrayList<>();
     static ArrayList<MovieList> movies = new ArrayList<>();
+
+
 
     /**
      * Query the iMdb dataset and return an {@link List} object to represent a single movie.
      */
     public static List fetchMovieData(String requestUrl) {
 
-        movies.clear();  // RD 9/27/17
+        movies.clear();  // 9/27/17
 
         // Create URL object
         URL url = createUrl(requestUrl);
@@ -101,7 +103,7 @@ public final class Utils {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the movie JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -185,14 +187,12 @@ public final class Utils {
                 JSONObject currentMovie = featureArray.getJSONObject(i);
                 String poster_path = currentMovie.getString("poster_path");
                 String posterUrlString = posterBaseString + poster_path;
-                String titleString = currentMovie.getString("title");
-                String dateString = currentMovie.getString("release_date");
-                String voteString = currentMovie.getString("vote_average");
-                String synopsisString = currentMovie.getString("overview");
                 Log.i("UTILS","The posterUrlString is: " + posterUrlString);
-                Log.i("UTILS","The titleString is: " + titleString);
 
-                MovieList mMovieList = new MovieList(posterUrlString, titleString, dateString, voteString, synopsisString);
+                //https://www.google.com/url?q=http://image.tmdb.org/t/p/w185/
+                //String poster_path = properties.getString("poster_path");
+
+                MovieList mMovieList = new MovieList(posterUrlString);
                 movies.add(mMovieList);
 
             }
@@ -201,7 +201,7 @@ public final class Utils {
             Log.e(LOG_TAG, "Problem parsing the mMovieList JSON results", e);
 
         }
-        Log.i("UTILS","movies is: " + movies);
+
         return movies;
     }
 

@@ -10,8 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.squareup.picasso.Picasso;
 
 import static com.example.android.moviesstage1.Utils.movies;
@@ -61,16 +59,7 @@ public class DetailActivity extends AppCompatActivity {
         ImageView imageView = (ImageView) findViewById(R.id.imgPoster);
         imageView.setAdjustViewBounds(true);
 
-        // Find the TextView in the movie_list_items.xml layout with the ID txtPosterView
-        // Get the jpg string from the current MovieRecord object and
-        // set this text on the title TextView
-        // and also get the title of the movie.
-        //txtPosterView.setText(String.valueOf(mPoster));
-        //txtTitleView.setText(String.valueOf(currentMovie.getmMovieTitle()));
-
-        //completeUrlString = txtPosterView.getText().toString();
-        //Log.i("LOG.MovieAdapter","The completeUrlString is: " + completeUrlString);
-
+        // Use the Picasso software tool to display URLs
         Picasso
                 .with(context)
                 .load(mPoster)
@@ -78,20 +67,11 @@ public class DetailActivity extends AppCompatActivity {
                 .into(imageView);
 
 
-
-
-
-
-
-
-
-
-
         if (intentThatStartedThisActivity != null) {
             if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)) {
                 mMovies = intentThatStartedThisActivity.getStringExtra(Intent.EXTRA_TEXT);
                 mMovieDisplay.setText(mTitle);
-                Toast.makeText(DetailActivity.this,"the title over here is: " + mTitle, Toast.LENGTH_LONG).show();
+
             }
         }
 

@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     movieGridView.setAdapter(mAdapter);
                     mAdapter.notifyDataSetChanged();
                     getLoaderManager().restartLoader(MOVIELIST_LOADER_ID, null, MainActivity.this);
-                    Toast.makeText(MainActivity.this,"POPULARSTRING", Toast.LENGTH_LONG).show();
+
                 } else if (selected.contains("Highest Rated")){
                     firstTimeRunFlag = false;
                     urlPosterString = TOPRATEDSTRING;
@@ -94,9 +94,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     movieGridView.setAdapter(mAdapter);
                     mAdapter.notifyDataSetChanged();
                     getLoaderManager().restartLoader(MOVIELIST_LOADER_ID, null, MainActivity.this);
-                    Toast.makeText(MainActivity.this,"TOPRATEDSTRING", Toast.LENGTH_LONG).show();
+
                 } else {
-                    Toast.makeText(MainActivity.this,"Neither spinner choice executed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(MainActivity.this,"Neither spinner choice executed", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent mIntent = new Intent(MainActivity.this, DetailActivity.class);
                 Bundle mBundle = new Bundle();
-                Toast.makeText(MainActivity.this,"grid position is: " + position, Toast.LENGTH_LONG).show();
+
                 mBundle.putString("MBUNDLE_TITLE", movies.get(position).getmMovieTitle());
                 mBundle.putString("MBUNDLE_DATE", movies.get(position).getmReleaseDate());
                 mBundle.putString("MBUNDLE_VOTE", movies.get(position).getmVoteAverage());
@@ -120,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 mBundle.putString("MBUNDLE_POSTER", movies.get(position).getmPosterPath());
                 mIntent.putExtras(mBundle);
 
-                Toast.makeText(MainActivity.this,"the title is: " + movies.get(position).getmMovieTitle(), Toast.LENGTH_LONG).show();
                 startActivity(mIntent);
             }
         });

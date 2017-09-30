@@ -1,10 +1,13 @@
 package com.example.android.moviesstage1;
 
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -97,6 +100,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
+            }
+        });
+
+        // Setup the setOnItemClickListener when a movie image is clicked
+        movieGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent mIntent = new Intent(MainActivity.this, DetailActivity.class);
+                startActivity(mIntent);
             }
         });
 

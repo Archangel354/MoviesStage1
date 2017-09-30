@@ -60,17 +60,19 @@ public class MovieAdapter extends ArrayAdapter<MovieList> {
         // Get the MovieRecord jpg object located at this "position" in the list
         MovieList currentMovie = getItem(position);
 
-        TextView txtTitleView = (TextView) convertView.findViewById(R.id.txtTitle);
+        TextView txtPosterView = (TextView) convertView.findViewById(R.id.txtPoster);
         ImageView imageView = (ImageView) convertView.findViewById(R.id.imgPosterPath);
+        TextView txtTitleView = (TextView) convertView.findViewById(R.id.txtMovieTitle);
         imageView.setAdjustViewBounds(true);
 
-        // Find the TextView in the movie_list_items.xml layout with the ID txtTitleView
-        //TextView txtTitleView = (TextView) listItemView.findViewById(R.id.txtTitle);
+        // Find the TextView in the movie_list_items.xml layout with the ID txtPosterView
         // Get the jpg string from the current MovieRecord object and
         // set this text on the title TextView
-        txtTitleView.setText(String.valueOf(currentMovie.getmPosterPath()));
+        // and also get the title of the movie.
+        txtPosterView.setText(String.valueOf(currentMovie.getmPosterPath()));
+        txtTitleView.setText(String.valueOf(currentMovie.getmMovieTitle()));
 
-        completeUrlString = txtTitleView.getText().toString();
+        completeUrlString = txtPosterView.getText().toString();
         Log.i("LOG.MovieAdapter","The completeUrlString is: " + completeUrlString);
 
         Picasso

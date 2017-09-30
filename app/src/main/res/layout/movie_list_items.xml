@@ -7,12 +7,16 @@
                 >
 
         <TextView
-        android:id="@+id/txtTitle"
+        android:id="@+id/txtPoster"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:visibility="gone"/>
 
-            android:text="Movie Title"/>
+    <TextView
+        android:id="@+id/txtMovieTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/imgPosterPath"

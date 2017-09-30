@@ -185,12 +185,11 @@ public final class Utils {
                 JSONObject currentMovie = featureArray.getJSONObject(i);
                 String poster_path = currentMovie.getString("poster_path");
                 String posterUrlString = posterBaseString + poster_path;
+                String titleString = currentMovie.getString("title");;
                 Log.i("UTILS","The posterUrlString is: " + posterUrlString);
+                Log.i("UTILS","The titleString is: " + titleString);
 
-                //https://www.google.com/url?q=http://image.tmdb.org/t/p/w185/
-                //String poster_path = properties.getString("poster_path");
-
-                MovieList mMovieList = new MovieList(posterUrlString);
+                MovieList mMovieList = new MovieList(posterUrlString, titleString);
                 movies.add(mMovieList);
 
             }

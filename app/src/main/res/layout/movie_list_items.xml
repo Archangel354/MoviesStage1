@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/imgPosterPath"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="@dimen/posterWidth"
+            android:layout_height="@dimen/posterHeight"
             app:srcCompat="@mipmap/ic_launcher_round"/>
     </LinearLayout>
 

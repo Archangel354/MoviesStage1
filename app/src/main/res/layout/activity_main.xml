@@ -7,7 +7,7 @@
     tools:context="com.example.android.moviesstage1.MainActivity">
 
     <Spinner
-        android:id="@+id/spnPopOrRated"
+        android:id="@+id/spnPopOrRatedOrFavorite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
@@ -23,7 +23,7 @@
         android:horizontalSpacing="0dp"
         android:verticalSpacing="0dp"
         android:descendantFocusability="beforeDescendants"
-        android:layout_below="@id/spnPopOrRated"
+        android:layout_below="@id/spnPopOrRatedOrFavorite"
         />
 
 

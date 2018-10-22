@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // so the list can be populated in the user interface
         movieGridView.setAdapter(mAdapter);
 
-        Spinner mSpinner = (Spinner) findViewById(R.id.spnPopOrRated);
+        Spinner mSpinner = (Spinner) findViewById(R.id.spnPopOrRatedOrFavorite);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> spinAdapter = ArrayAdapter.createFromResource(this,

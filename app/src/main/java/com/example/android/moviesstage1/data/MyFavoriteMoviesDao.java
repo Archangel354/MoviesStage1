@@ -1,5 +1,6 @@
 package com.example.android.moviesstage1.data;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
@@ -11,7 +12,7 @@ import java.util.List;
 public interface MyFavoriteMoviesDao {
 
     @Query("SELECT * FROM myfavoritesmovies")
-    List<MyFavoriteMoviesEntry> loadAllfavoriteMovies();
+    LiveData<List<MyFavoriteMoviesEntry>> loadAllfavoriteMovies();
 
     @Insert
     void insertMyFavortieMovie(MyFavoriteMoviesEntry myFavoriteMoviesEntry);
@@ -21,4 +22,7 @@ public interface MyFavoriteMoviesDao {
 
     @Delete
     void deleteMyFavoriteMoviesEntry(MyFavoriteMoviesEntry myFavoriteMoviesEntry);
+
+    @Query("SELECT * FROM myfavoritesmovies WHERE id = :id")
+    LiveData<MyFavoriteMoviesEntry> loadMovieById(int id);
 }

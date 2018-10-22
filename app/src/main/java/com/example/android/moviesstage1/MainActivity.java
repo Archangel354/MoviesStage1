@@ -1,16 +1,13 @@
 package com.example.android.moviesstage1;
 
 import android.app.LoaderManager;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -94,6 +91,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     movieGridView.setAdapter(mAdapter);
                     mAdapter.notifyDataSetChanged();
                     getLoaderManager().restartLoader(MOVIELIST_LOADER_ID, null, MainActivity.this);
+
+                } else if (selected.contains("My Favorites")){
+                    firstTimeRunFlag = false;
+                    //urlPosterString = TOPRATEDSTRING;
+                    mAdapter.clear();
+                   // movieGridView.setAdapter(mAdapter);
+                   // mAdapter.notifyDataSetChanged();
+                    //getLoaderManager().restartLoader(MOVIELIST_LOADER_ID, null, MainActivity.this);
 
                 } else {
                     Toast.makeText(MainActivity.this,"Neither spinner choice executed", Toast.LENGTH_SHORT).show();
